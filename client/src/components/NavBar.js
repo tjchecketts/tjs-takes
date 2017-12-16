@@ -11,6 +11,9 @@ class NavBar extends Component {
     if (user.id) {
       return (
         <Menu.Menu position='right'>
+          <Link to='/newtake'>
+            <Menu.Item name='New Take'/>
+          </Link>
           <Menu.Item
             name='Logout'
             onClick={() => dispatch(handleLogout(history))}
@@ -21,10 +24,10 @@ class NavBar extends Component {
     return (
       <Menu.Menu position='right'>
         <Link to='/register'>
-          <Menu.Item name='Register' />
+          <Menu.Item style={{color:'white'}} name='Register' />
         </Link>
         <Link to='/login'>
-          <Menu.Item name='Login' />
+          <Menu.Item style={{color:'white'}} name='Login' />
         </Link>
       </Menu.Menu>
     );
@@ -35,7 +38,10 @@ class NavBar extends Component {
       <div>
         <Menu pointing secondary>
           <Link to='/'>
-            <Menu.Item name='home' />
+            <Menu.Item name='takes' />
+          </Link>
+          <Link to='/about'>
+            <Menu.Item name='about' />
           </Link>
           { this.rightNavs() }
         </Menu>
