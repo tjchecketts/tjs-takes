@@ -11,30 +11,48 @@ import ProtectedRoute from './ProtectedRoute';
 import AuthRoute from './AuthRoute';
 import FetchUser from './FetchUser';
 import { Switch, Route } from 'react-router-dom';
+import axios from 'axios';
 
 class App extends Component {
   
   state = { takes: '' }
 
   componentDidMount() {
-    // axios call?
+    axios.get('/api/takes')
+      .then (res => this.setState ({ takes: res.data }))
   }
 
   addTake = (body) => {
     const {takes} = this.state;
-    // axios call?
+    axios.post('/api/takes', { take: {body}} )
+      .then( res => {
+        this.setState({ takes: [res.data, ...takes] })
+      })
   }
 
   updateTake = (id) => {
-    // axios call?
+    axios.put(`/api/items/${id}`)
+      .then( res => {
+        let takes = this.state.takes.map( take => {
+          if (take.id === id)
+            return res.data
+          return take
+        })
+        this.setState({ takes })
+      })
   }
 
   deleteTake = (id) => {
     const { takes } = this.state;
-    // axios call?
+    axios.delete(`/spi/takes/${id}`)
+      .then( res =>
+        this.setState({ takes: takes.filter( t => t.id !== id ) }
+      )
+    )
   }
   
   render() {
+    // console.log("add" + this.addTake)
     return (
       <div>
         <NavBar />
@@ -43,7 +61,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/about' component={About} />
-            <ProtectedRoute exact path='/newtake' component={NewTake} />
+            <ProtectedRoute exact path='/newtake' component={NewTake} addTake={this.addTake} />
             <AuthRoute exact path='/login' component={Login} />
             <AuthRoute exact path='/register' component={Register} />
             <Route component={NoMatch} />

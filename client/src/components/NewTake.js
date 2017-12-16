@@ -13,24 +13,26 @@ class NewTake extends Component {
     // stops the form from rendering
     e.preventDefault();
     // from App.js
-    this.props.addTake( this.state.body );
+    this.props.addTake(this.state.body);
     // clears form
     this.setState({ body: '' })
   }
 
   render() {
+    console.log("body: " + this.state.body)
+    console.log("addTake: " + this.props.addTake)
     return (
       <div>
         <Header as='h1' textAlign='center'>NewTake Component</Header>
-        <form>
+        {/* <form> */}
           <textarea 
             placeholder='Add a take'
-            value={this.state.name}
+            value={this.state.body}
             required
-
             onChange={this.handleChange}
           />
-        </form>
+          <button onClick={this.handleSubmit}>Submit</button>
+        {/* </form> */}
       </div>
     );
   }
